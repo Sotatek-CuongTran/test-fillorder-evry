@@ -62,31 +62,31 @@ async function scenarioAsync(): Promise<void> {
     'function deposit() public payable',
   ];
 
-  // // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
-  // const zrxToken = new Contract(zrxTokenAddress, erc20ABI, maker);
-  // const makerZRXApprovalTxHash = await zrxToken.approve(
-  //   contractWrappers.contractAddresses.erc20Proxy,
-  //   UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  // );
-  // console.log({ makerZRXApprovalTxHash });
+  // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
+  const zrxToken = new Contract(zrxTokenAddress, erc20ABI, maker);
+  const makerZRXApprovalTxHash = await zrxToken.approve(
+    contractWrappers.contractAddresses.erc20Proxy,
+    UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+  );
+  console.log({ makerZRXApprovalTxHash });
 
-  // // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
-  // const etherToken = new Contract(
-  //   contractWrappers.weth9.address,
-  //   erc20ABI,
-  //   taker
-  // );
-  // const takerWETHApprovalTxHash = await etherToken.approve(
-  //   contractWrappers.contractAddresses.erc20Proxy,
-  //   UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  // );
-  // console.log({ takerWETHApprovalTxHash });
+  // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
+  const etherToken = new Contract(
+    contractWrappers.weth9.address,
+    erc20ABI,
+    taker
+  );
+  const takerWETHApprovalTxHash = await etherToken.approve(
+    contractWrappers.contractAddresses.erc20Proxy,
+    UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+  );
+  console.log({ takerWETHApprovalTxHash });
 
-  // // Convert ETH into WETH for taker by depositing ETH into the WETH contract
-  // const takerWETHDepositTxHash = await etherToken.deposit({
-  //   value: takerAssetAmount,
-  // });
-  // console.log({ takerWETHDepositTxHash });
+  // Convert ETH into WETH for taker by depositing ETH into the WETH contract
+  const takerWETHDepositTxHash = await etherToken.deposit({
+    value: takerAssetAmount,
+  });
+  console.log({ takerWETHDepositTxHash });
 
   // Set up the Order and fill it
   const randomExpiration = getRandomFutureDateInSeconds();
