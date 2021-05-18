@@ -158,16 +158,6 @@ async function scenarioAsync(): Promise<void> {
     }
   );
   console.log({ txHash });
-  //   // Fill the Order via 0x Exchange contract
-  //   txHash = await contractWrappers.exchange
-  //       .fillOrder(signedOrder, takerAssetAmount, signedOrder.signature)
-  //       .sendTransactionAsync({
-  //           from: taker,
-  //           ...TX_DEFAULTS,
-  //           value: calculateProtocolFee([signedOrder]),
-  //       });
-  //   txReceipt = await printUtils.awaitTransactionMinedSpinnerAsync('fillOrder', txHash);
-  //   printUtils.printTransaction('fillOrder', txReceipt, [['orderHash', orderHash]]);
 }
 
 scenarioAsync()
