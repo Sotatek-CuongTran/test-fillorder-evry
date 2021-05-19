@@ -120,6 +120,16 @@ async function scenarioAsync(): Promise<void> {
   );
   console.log({ signedOrder });
 
+  const exchange = new Contract(
+    contractWrappers.contractAddresses.exchange,
+    exchangeABI,
+    taker
+  );
+  const orderInfo = await exchange.getOrderInfo(
+    JSON.parse(JSON.stringify(signedOrder))
+  );
+  console.log(orderInfo);
+
   const [
     { orderStatus, orderHash },
     remainingFillableAmount,
@@ -135,11 +145,6 @@ async function scenarioAsync(): Promise<void> {
     // Order is fillable
   }
 
-  const exchange = new Contract(
-    contractWrappers.contractAddresses.exchange,
-    exchangeABI,
-    taker
-  );
   const txHash = await exchange.fillOrder(
     {
       ...signedOrder,

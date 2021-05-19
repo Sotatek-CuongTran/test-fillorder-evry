@@ -24,7 +24,7 @@ export const KOVAN_CONFIGS: NetworkSpecificConfigs = {
   chainId: KOVAN_NETWORK_ID,
 };
 export const ROPSTEN_CONFIGS: NetworkSpecificConfigs = {
-  rpcUrl: 'https://ropsten.infura.io/',
+  rpcUrl: 'https://ropsten.infura.io/v3/862ef040239b491fbe5d2c9efd414d98',
   networkId: ROPSTEN_NETWORK_ID,
   chainId: ROPSTEN_NETWORK_ID,
 };
@@ -34,4 +34,4 @@ export const RINKEBY_CONFIGS: NetworkSpecificConfigs = {
   chainId: RINKEBY_NETWORK_ID,
 };
 // export const NETWORK_CONFIGS = GANACHE_CONFIGS; // or KOVAN_CONFIGS or ROPSTEN_CONFIGS or RINKEBY_CONFIGS
-export const NETWORK_CONFIGS = RINKEBY_CONFIGS; // or KOVAN_CONFIGS or ROPSTEN_CONFIGS or RINKEBY_CONFIGS
+export const NETWORK_CONFIGS = ROPSTEN_CONFIGS; // or KOVAN_CONFIGS or ROPSTEN_CONFIGS or RINKEBY_CONFIGS
