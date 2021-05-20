@@ -25,7 +25,7 @@ async function scenarioAsync(): Promise<void> {
     takerTokenFeeAmount: new BigNumber(0),
     sender: '0x0000000000000000000000000000000000000000',
     feeRecipient: '0x0000000000000000000000000000000000000000',
-    makerToken: contractWrappers.contractAddresses.zrxToken, // DAI
+    makerToken: '0xad6d458402f60fd3bd25163575031acdce07538d', // DAI
     takerToken: contractWrappers.contractAddresses.etherToken,
     makerAmount: new BigNumber('100000000000000000'),
     takerAmount: new BigNumber('100000000000000000'), //0.1
@@ -37,7 +37,7 @@ async function scenarioAsync(): Promise<void> {
       '4427581533300995228973896243299476230622882969229644628675279848100164573266'
     ),
     chainId: NETWORK_CONFIGS.chainId,
-    verifyingContract: contractWrappers.contractAddresses.exchange,
+    verifyingContract: contractWrappers.contractAddresses.exchangeProxy,
   });
   console.log({ newOrder });
   console.log({ orderHash: newOrder.getHash() });
