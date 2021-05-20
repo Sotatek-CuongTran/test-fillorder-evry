@@ -63,35 +63,35 @@ async function scenarioAsync(): Promise<void> {
     'function deposit() public payable',
   ];
 
-  // // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
-  // const daiToken = new Contract(daiTokenAddress, erc20ABI, maker);
-  // const makerDAIApprovalTxHash = await daiToken.approve(
-  //   contractWrappers.contractAddresses.erc20Proxy,
-  //   UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  // );
-  // console.log({ makerDAIApprovalTxHash });
+  // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
+  const daiToken = new Contract(daiTokenAddress, erc20ABI, maker);
+  const makerDAIApprovalTxHash = await daiToken.approve(
+    contractWrappers.contractAddresses.erc20Proxy,
+    UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+  );
+  console.log({ makerDAIApprovalTxHash });
 
-  // // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
-  // const etherToken = new Contract(
-  //   contractWrappers.weth9.address,
-  //   erc20ABI,
-  //   taker
-  // );
-  // const takerWETHApprovalTxHash = await etherToken.approve(
-  //   contractWrappers.contractAddresses.erc20Proxy,
-  //   UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  // );
-  // console.log({ takerWETHApprovalTxHash });
+  // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
+  const etherToken = new Contract(
+    contractWrappers.weth9.address,
+    erc20ABI,
+    taker
+  );
+  const takerWETHApprovalTxHash = await etherToken.approve(
+    contractWrappers.contractAddresses.erc20Proxy,
+    UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+  );
+  console.log({ takerWETHApprovalTxHash });
 
-  // // Convert ETH into WETH for taker by depositing ETH into the WETH contract
-  // const takerWETHDepositTxHash = await etherToken.deposit({
-  //   value: takerAssetAmount,
-  // });
-  // console.log({ takerWETHDepositTxHash });
+  // Convert ETH into WETH for taker by depositing ETH into the WETH contract
+  const takerWETHDepositTxHash = await etherToken.deposit({
+    value: takerAssetAmount,
+  });
+  console.log({ takerWETHDepositTxHash });
 
   // Set up the Order and fill it
-  // const randomExpiration = getRandomFutureDateInSeconds();
-  const randomExpiration = new BigNumber(1621564304);
+  const randomExpiration = getRandomFutureDateInSeconds();
+  // const randomExpiration = new BigNumber(1621564304);
   const exchangeAddress = contractWrappers.contractAddresses.exchange;
 
   // Create the order
@@ -132,7 +132,7 @@ async function scenarioAsync(): Promise<void> {
   );
   console.log(orderInfo);
   console.log({ vrs: parseSignatureHexAsVRS(signedOrder.signature) });
-  return;
+  // return;
 
   // const [
   //   { orderStatus, orderHash },
