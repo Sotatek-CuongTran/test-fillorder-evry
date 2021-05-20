@@ -27,7 +27,7 @@ async function scenarioAsync(): Promise<void> {
     feeRecipient: '0x0000000000000000000000000000000000000000',
     makerToken: '0xad6d458402f60fd3bd25163575031acdce07538d', // DAI
     takerToken: contractWrappers.contractAddresses.etherToken,
-    makerAmount: new BigNumber('100000000000000000'),
+    makerAmount: new BigNumber('100000000000000000000'),
     takerAmount: new BigNumber('100000000000000000'), //0.1
     maker: '0xb1b11e04348f4271b163db51138704f3dec0c128',
     taker: '0x0000000000000000000000000000000000000000',
