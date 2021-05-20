@@ -89,7 +89,8 @@ async function scenarioAsync(): Promise<void> {
   // console.log({ takerWETHDepositTxHash });
 
   // Set up the Order and fill it
-  const randomExpiration = getRandomFutureDateInSeconds();
+  // const randomExpiration = getRandomFutureDateInSeconds();
+  const randomExpiration = new BigNumber(1621564304);
   const exchangeAddress = contractWrappers.contractAddresses.exchange;
 
   // Create the order
@@ -129,6 +130,7 @@ async function scenarioAsync(): Promise<void> {
     JSON.parse(JSON.stringify(signedOrder))
   );
   console.log(orderInfo);
+  return;
 
   // const [
   //   { orderStatus, orderHash },
