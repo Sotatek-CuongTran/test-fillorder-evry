@@ -36,16 +36,16 @@ async function scenarioAsync(): Promise<void> {
 
   // Generate the order hash and sign it
   const signedOrder = {
-    chainId: 3,
+    chainId: NETWORK_CONFIGS.chainId,
     exchangeAddress: '0x5d8c9ba74607d2cbc4176882a42d4ace891c1c00',
     makerAddress: '0xb1b11e04348f4271b163db51138704f3dec0c128',
     takerAddress: '0x0000000000000000000000000000000000000000',
     senderAddress: '0x0000000000000000000000000000000000000000',
     feeRecipientAddress: '0x0000000000000000000000000000000000000000',
-    expirationTimeSeconds: '1621564304',
-    salt: '4427581533300995228973896243299476230622882969229644628675279848100164573266',
-    makerAssetAmount: '1000000000000000000000',
-    takerAssetAmount: '1000000000000000000',
+    expirationTimeSeconds: '1621501709',
+    salt: '52252362529914496670489815547904545915596487156589974532204458005888306983042',
+    makerAssetAmount: '1000000000000000000',
+    takerAssetAmount: '100000000000000000',
     makerAssetData:
       '0xf47261b0000000000000000000000000ad6d458402f60fd3bd25163575031acdce07538d',
     takerAssetData:
@@ -55,7 +55,7 @@ async function scenarioAsync(): Promise<void> {
     makerFee: 0,
     takerFee: 0,
     signature:
-      '0x1bb549d42097165f6d4d0ecece0046516f7e51117bcc0bb80ae1a506bb047ee80430d316167bdf01b6e8bd7a7640f6d7c6ed381ec1ddf64234df7eecc1e75ab60602',
+      '0x1b0cf4c63f150e5194f308c18325d609223a410b4b234b0cc611400e3ed9b649a159f13834611e3b477083c533a76aa71c264a9e3093d72c725130c69a9d08927a02',
   };
   console.log({ signedOrder });
 
