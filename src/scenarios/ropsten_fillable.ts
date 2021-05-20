@@ -38,7 +38,7 @@ async function scenarioAsync(): Promise<void> {
   const signedOrder = {
     chainId: 3,
     exchangeAddress: '0x5d8c9ba74607d2cbc4176882a42d4ace891c1c00',
-    makerAddress: '0xB1B11E04348f4271B163dB51138704F3Dec0c128',
+    makerAddress: '0xb1b11e04348f4271b163db51138704f3dec0c128',
     takerAddress: '0x0000000000000000000000000000000000000000',
     senderAddress: '0x0000000000000000000000000000000000000000',
     feeRecipientAddress: '0x0000000000000000000000000000000000000000',
