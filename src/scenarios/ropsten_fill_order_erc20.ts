@@ -63,6 +63,14 @@ async function scenarioAsync(): Promise<void> {
     'function deposit() public payable',
   ];
 
+  const daiToken = new Contract(daiTokenAddress, erc20ABI, maker);
+  const makerDAIApprovalTxHash = await daiToken.approve(
+    contractWrappers.contractAddresses.exchangeProxy,
+    UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+  );
+  console.log({ makerDAIApprovalTxHash });
+  return;
+
   // // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
   // const daiToken = new Contract(daiTokenAddress, erc20ABI, maker);
   // const makerDAIApprovalTxHash = await daiToken.approve(

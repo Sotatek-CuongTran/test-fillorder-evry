@@ -69,6 +69,32 @@ async function scenarioAsync(): Promise<void> {
     sig
   );
   console.log({ fillable });
+
+  const test = await zeroEx.getLimitOrderRelevantState(
+    {
+      sender: '0x0000000000000000000000000000000000000000',
+      maker: '0xb1b11e04348f4271b163db51138704f3dec0c128',
+      taker: '0x0000000000000000000000000000000000000000',
+      takerTokenFeeAmount: 0,
+      makerAmount: '100000000000000000000',
+      takerAmount: '100000000000000000',
+      makerToken: '0xad6d458402f60fd3bd25163575031acdce07538d',
+      takerToken: '0xc778417e063141139fce010982780140aa0cd5ab',
+      salt: '4427581533300995228973896243299476230622882969229644628675279848100164573266',
+      verifyingContract: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+      feeRecipient: '0x0000000000000000000000000000000000000000',
+      expiry: '1621584020',
+      chainId: 3,
+      pool: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    },
+    {
+      signatureType: 3,
+      r: '0xeccacd379eafbe9b2ef0c6234ad8ccf649325ae0e9d6f9a8fd05814021606c03',
+      s: '0x1394792141e2af0dc335241c753fde983f0e45f6337cb573873f24d6e9d1ce36',
+      v: 28,
+    }
+  );
+  console.log(JSON.stringify(test, null, 2));
 }
 
 scenarioAsync()
