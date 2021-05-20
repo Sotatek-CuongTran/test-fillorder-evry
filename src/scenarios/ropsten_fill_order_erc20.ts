@@ -9,6 +9,7 @@ import {
   Order,
   signatureUtils,
 } from '@0x/order-utils';
+import { parseSignatureHexAsVRS } from '@0x/order-utils/lib/src/signature_utils';
 import { NETWORK_CONFIGS, MNEMONIC, TX_DEFAULTS } from '../configs';
 import { providerEngine } from '../provider_engine';
 import {
@@ -44,8 +45,8 @@ async function scenarioAsync(): Promise<void> {
   const etherTokenAddress = contractWrappers.contractAddresses.etherToken;
   console.log({ maker, taker });
 
-  const makerAssetAmount = utils.parseUnits('1', DECIMALS);
-  const takerAssetAmount = utils.parseUnits('0.1', DECIMALS);
+  const makerAssetAmount = utils.parseUnits('1000', DECIMALS);
+  const takerAssetAmount = utils.parseUnits('1', DECIMALS);
   const makerAssetData = await contractWrappers.devUtils
     .encodeERC20AssetData(daiTokenAddress)
     .callAsync();
@@ -130,6 +131,7 @@ async function scenarioAsync(): Promise<void> {
     JSON.parse(JSON.stringify(signedOrder))
   );
   console.log(orderInfo);
+  console.log({ vrs: parseSignatureHexAsVRS(signedOrder.signature) });
   return;
 
   // const [
