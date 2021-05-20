@@ -45,8 +45,8 @@ async function scenarioAsync(): Promise<void> {
   const etherTokenAddress = contractWrappers.contractAddresses.etherToken;
   console.log({ maker, taker });
 
-  const makerAssetAmount = utils.parseUnits('1000', DECIMALS);
-  const takerAssetAmount = utils.parseUnits('1', DECIMALS);
+  const makerAssetAmount = utils.parseUnits('1', DECIMALS);
+  const takerAssetAmount = utils.parseUnits('0.1', DECIMALS);
   const makerAssetData = await contractWrappers.devUtils
     .encodeERC20AssetData(daiTokenAddress)
     .callAsync();
@@ -63,31 +63,31 @@ async function scenarioAsync(): Promise<void> {
     'function deposit() public payable',
   ];
 
-  // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
-  const daiToken = new Contract(daiTokenAddress, erc20ABI, maker);
-  const makerDAIApprovalTxHash = await daiToken.approve(
-    contractWrappers.contractAddresses.erc20Proxy,
-    UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  );
-  console.log({ makerDAIApprovalTxHash });
+  // // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
+  // const daiToken = new Contract(daiTokenAddress, erc20ABI, maker);
+  // const makerDAIApprovalTxHash = await daiToken.approve(
+  //   contractWrappers.contractAddresses.erc20Proxy,
+  //   UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+  // );
+  // console.log({ makerDAIApprovalTxHash });
 
-  // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
-  const etherToken = new Contract(
-    contractWrappers.weth9.address,
-    erc20ABI,
-    taker
-  );
-  const takerWETHApprovalTxHash = await etherToken.approve(
-    contractWrappers.contractAddresses.erc20Proxy,
-    UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  );
-  console.log({ takerWETHApprovalTxHash });
+  // // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
+  // const etherToken = new Contract(
+  //   contractWrappers.weth9.address,
+  //   erc20ABI,
+  //   taker
+  // );
+  // const takerWETHApprovalTxHash = await etherToken.approve(
+  //   contractWrappers.contractAddresses.erc20Proxy,
+  //   UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+  // );
+  // console.log({ takerWETHApprovalTxHash });
 
-  // Convert ETH into WETH for taker by depositing ETH into the WETH contract
-  const takerWETHDepositTxHash = await etherToken.deposit({
-    value: takerAssetAmount,
-  });
-  console.log({ takerWETHDepositTxHash });
+  // // Convert ETH into WETH for taker by depositing ETH into the WETH contract
+  // const takerWETHDepositTxHash = await etherToken.deposit({
+  //   value: takerAssetAmount,
+  // });
+  // console.log({ takerWETHDepositTxHash });
 
   // Set up the Order and fill it
   const randomExpiration = getRandomFutureDateInSeconds();
@@ -151,7 +151,7 @@ async function scenarioAsync(): Promise<void> {
 
   const txHash = await exchange.fillOrder(
     JSON.parse(JSON.stringify(signedOrder)),
-    takerAssetAmount,
+    takerAssetAmount.div(2),
     signedOrder.signature,
     {
       // ...TX_DEFAULTS,
