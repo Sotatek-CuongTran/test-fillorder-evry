@@ -120,6 +120,9 @@ export async function scenarioAsync(): Promise<void> {
     signature
   );
   console.log({ orderInfo });
+  if (orderInfo.actualFillableTakerTokenAmount.lt(0)) {
+    throw new Error('Order is not fillable');
+  }
 
   // Fill the Order via 0x Exchange contract
   const txHash = await zeroEx
