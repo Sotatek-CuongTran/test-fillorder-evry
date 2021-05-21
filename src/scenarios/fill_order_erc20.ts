@@ -1,31 +1,15 @@
-import { ContractWrappers, OrderStatus } from '@0x/contract-wrappers';
-import { DummyERC20TokenContract } from '@0x/contracts-erc20';
-
-import {
-  generatePseudoRandomSalt,
-  Order,
-  signatureUtils,
-} from '@0x/order-utils';
+import { ContractWrappers } from '@0x/contract-wrappers';
 import { BigNumber } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
+import { Contract, providers, Wallet } from 'ethers';
 
-import { MNEMONIC, NETWORK_CONFIGS, TX_DEFAULTS } from '../configs';
-import {
-  DECIMALS,
-  NULL_ADDRESS,
-  NULL_BYTES,
-  UNLIMITED_ALLOWANCE_IN_BASE_UNITS,
-  ZERO,
-} from '../constants';
+import { MNEMONIC, NETWORK_CONFIGS } from '../configs';
+import { DECIMALS, UNLIMITED_ALLOWANCE_IN_BASE_UNITS } from '../constants';
 import { PrintUtils } from '../print_utils';
 import { providerEngine } from '../provider_engine';
-import {
-  calculateProtocolFee,
-  getEmptyLimitOrder,
-  getRandomFutureDateInSeconds,
-} from '../utils';
+import { getEmptyLimitOrder } from '../utils';
 import * as wethABI from '../abis/weth.json';
-import { Contract, providers, Wallet } from 'ethers';
+import * as zeroExABI from '../abis/zero-ex.json';
 
 /**
  * In this scenario, the maker creates and signs an order for selling ZRX for WETH.
@@ -119,33 +103,23 @@ export async function scenarioAsync(): Promise<void> {
     takerAmount: takerAssetAmount,
     maker: maker.address,
   });
-  console.log(order);
+  const signature = await order.getSignatureWithProviderAsync(providerEngine);
+  console.log({ order, signature });
 
   // Print out the Balances and Allowances
   await printUtils.fetchAndPrintContractAllowancesAsync();
   await printUtils.fetchAndPrintContractBalancesAsync();
 
-  //   // Generate the order hash and sign it
-  //   const signedOrder = await signatureUtils.ecSignOrderAsync(
-  //     providerEngine,
-  //     order,
-  //     maker
-  //   );
-
-  //   const [
-  //     { orderStatus, orderHash },
-  //     remainingFillableAmount,
-  //     isValidSignature,
-  //   ] = await contractWrappers.devUtils
-  //     .getOrderRelevantState(signedOrder, signedOrder.signature)
-  //     .callAsync();
-  //   if (
-  //     orderStatus === OrderStatus.Fillable &&
-  //     remainingFillableAmount.isGreaterThan(0) &&
-  //     isValidSignature
-  //   ) {
-  //     // Order is fillable
-  //   }
+  const zeroEx = new Contract(
+    contractWrappers.contractAddresses.exchangeProxy,
+    zeroExABI,
+    provider
+  );
+  const orderInfo = await zeroEx.getLimitOrderRelevantState(
+    JSON.parse(JSON.stringify(order)),
+    signature
+  );
+  console.log({ orderInfo });
 
   //   // Fill the Order via 0x Exchange contract
   //   txHash = await contractWrappers.exchange

@@ -2,7 +2,7 @@ import { Wallet, providers, Contract } from 'ethers';
 import { ContractWrappers } from '@0x/contract-wrappers';
 import { NETWORK_CONFIGS, MNEMONIC, TX_DEFAULTS } from '../configs';
 import { providerEngine } from '../provider_engine';
-import * as zeroExABI from '../zero-ex.json';
+import * as zeroExABI from '../abis/zero-ex.json';
 import { LimitOrder } from '@0x/protocol-utils';
 import { BigNumber, hexUtils } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
