@@ -1,8 +1,6 @@
-import {
-  ContractWrappers,
-  ERC20TokenContract,
-  OrderStatus,
-} from '@0x/contract-wrappers';
+import { ContractWrappers, OrderStatus } from '@0x/contract-wrappers';
+import { DummyERC20TokenContract } from '@0x/contracts-erc20';
+
 import {
   generatePseudoRandomSalt,
   Order,
@@ -61,16 +59,19 @@ export async function scenarioAsync(): Promise<void> {
   );
 
   // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
-  const erc20Token = new ERC20TokenContract(zrxTokenAddress, providerEngine);
+  const erc20Token = new DummyERC20TokenContract(
+    zrxTokenAddress,
+    providerEngine
+  );
   const makerZRXApprovalTxHash = await erc20Token
     .approve(
       contractWrappers.contractAddresses.erc20Proxy,
       UNLIMITED_ALLOWANCE_IN_BASE_UNITS
     )
-    .sendTransactionAsync({ from: maker });
+    .awaitTransactionSuccessAsync({ from: maker });
   await printUtils.awaitTransactionMinedSpinnerAsync(
     'Maker ZRX Approval',
-    makerZRXApprovalTxHash
+    makerZRXApprovalTxHash.transactionHash
   );
 
   //   // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
