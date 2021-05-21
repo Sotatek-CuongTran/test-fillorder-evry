@@ -70,7 +70,7 @@ export async function scenarioAsync(): Promise<void> {
   const makerZRXApprovalTxHash = await erc20Token
     .connect(maker)
     .approve(
-      contractWrappers.contractAddresses.erc20Proxy,
+      contractWrappers.contractAddresses.exchangeProxy,
       UNLIMITED_ALLOWANCE_IN_BASE_UNITS.toString()
     );
   await printUtils.awaitTransactionMinedSpinnerAsync(
@@ -78,36 +78,33 @@ export async function scenarioAsync(): Promise<void> {
     makerZRXApprovalTxHash.hash
   );
 
-  //   // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
-  //   const etherToken = contractWrappers.weth9;
-  //   const takerWETHApprovalTxHash = await etherToken
-  //     .approve(
-  //       contractWrappers.contractAddresses.erc20Proxy,
-  //       UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  //     )
-  //     .sendTransactionAsync({ from: taker });
-  //   await printUtils.awaitTransactionMinedSpinnerAsync(
-  //     'Taker WETH Approval',
-  //     takerWETHApprovalTxHash
-  //   );
+  // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
+  const etherToken = new Contract(etherTokenAddress, wethABI, provider);
+  const takerWETHApprovalTxHash = await etherToken
+    .connect(taker)
+    .approve(
+      contractWrappers.contractAddresses.exchangeProxy,
+      UNLIMITED_ALLOWANCE_IN_BASE_UNITS.toString()
+    );
+  await printUtils.awaitTransactionMinedSpinnerAsync(
+    'Taker WETH Approval',
+    takerWETHApprovalTxHash.hash
+  );
 
-  //   // Convert ETH into WETH for taker by depositing ETH into the WETH contract
-  //   const takerWETHDepositTxHash = await etherToken
-  //     .deposit()
-  //     .sendTransactionAsync({
-  //       from: taker,
-  //       value: takerAssetAmount,
-  //     });
-  //   await printUtils.awaitTransactionMinedSpinnerAsync(
-  //     'Taker WETH Deposit',
-  //     takerWETHDepositTxHash
-  //   );
+  // Convert ETH into WETH for taker by depositing ETH into the WETH contract
+  const takerWETHDepositTxHash = await etherToken.connect(taker).deposit({
+    value: takerAssetAmount.toString(),
+  });
+  await printUtils.awaitTransactionMinedSpinnerAsync(
+    'Taker WETH Deposit',
+    takerWETHDepositTxHash.hash
+  );
 
-  //   PrintUtils.printData('Setup', [
-  //     ['Maker ZRX Approval', makerZRXApprovalTxHash],
-  //     ['Taker WETH Approval', takerWETHApprovalTxHash],
-  //     ['Taker WETH Deposit', takerWETHDepositTxHash],
-  //   ]);
+  PrintUtils.printData('Setup', [
+    ['Maker ZRX Approval', makerZRXApprovalTxHash.hash],
+    ['Taker WETH Approval', takerWETHApprovalTxHash.hash],
+    ['Taker WETH Deposit', takerWETHDepositTxHash.hash],
+  ]);
 
   //   // Set up the Order and fill it
   //   const randomExpiration = getRandomFutureDateInSeconds();
