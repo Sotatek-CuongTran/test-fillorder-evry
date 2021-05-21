@@ -1,4 +1,8 @@
-import { ContractWrappers } from '@0x/contract-wrappers';
+import {
+  ContractWrappers,
+  IZeroExContract,
+  WETH9Contract,
+} from '@0x/contract-wrappers';
 import { BigNumber } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
 import { Contract, providers, Wallet } from 'ethers';
@@ -8,8 +12,6 @@ import { DECIMALS, UNLIMITED_ALLOWANCE_IN_BASE_UNITS } from '../constants';
 import { PrintUtils } from '../print_utils';
 import { providerEngine } from '../provider_engine';
 import { calculateProtocolFee, getEmptyLimitOrder } from '../utils';
-import * as wethABI from '../abis/weth.json';
-import * as zeroExABI from '../abis/zero-ex.json';
 
 /**
  * In this scenario, the maker creates and signs an order for selling ZRX for WETH.
@@ -54,7 +56,11 @@ export async function scenarioAsync(): Promise<void> {
   );
 
   // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
-  const erc20Token = new Contract(zrxTokenAddress, wethABI, provider);
+  const erc20Token = new Contract(
+    zrxTokenAddress,
+    WETH9Contract.ABI(),
+    provider
+  );
   const makerZRXApprovalTxHash = await erc20Token
     .connect(maker)
     .approve(
@@ -67,7 +73,11 @@ export async function scenarioAsync(): Promise<void> {
   );
 
   // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
-  const etherToken = new Contract(etherTokenAddress, wethABI, provider);
+  const etherToken = new Contract(
+    etherTokenAddress,
+    WETH9Contract.ABI(),
+    provider
+  );
   const takerWETHApprovalTxHash = await etherToken
     .connect(taker)
     .approve(
@@ -112,7 +122,7 @@ export async function scenarioAsync(): Promise<void> {
 
   const zeroEx = new Contract(
     contractWrappers.contractAddresses.exchangeProxy,
-    zeroExABI,
+    IZeroExContract.ABI(),
     provider
   );
   const orderInfo = await zeroEx.getLimitOrderRelevantState(
