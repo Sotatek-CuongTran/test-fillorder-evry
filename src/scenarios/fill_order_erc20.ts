@@ -121,9 +121,9 @@ export async function scenarioAsync(): Promise<void> {
   });
   console.log(order);
 
-  //   // Print out the Balances and Allowances
-  //   await printUtils.fetchAndPrintContractAllowancesAsync();
-  //   await printUtils.fetchAndPrintContractBalancesAsync();
+  // Print out the Balances and Allowances
+  await printUtils.fetchAndPrintContractAllowancesAsync();
+  await printUtils.fetchAndPrintContractBalancesAsync();
 
   //   // Generate the order hash and sign it
   //   const signedOrder = await signatureUtils.ecSignOrderAsync(
