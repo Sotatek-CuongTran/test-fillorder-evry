@@ -7,7 +7,7 @@ import { MNEMONIC, NETWORK_CONFIGS } from '../configs';
 import { DECIMALS, UNLIMITED_ALLOWANCE_IN_BASE_UNITS } from '../constants';
 import { PrintUtils } from '../print_utils';
 import { providerEngine } from '../provider_engine';
-import { getEmptyLimitOrder } from '../utils';
+import { calculateProtocolFee, getEmptyLimitOrder } from '../utils';
 import * as wethABI from '../abis/weth.json';
 import * as zeroExABI from '../abis/zero-ex.json';
 
@@ -121,27 +121,22 @@ export async function scenarioAsync(): Promise<void> {
   );
   console.log({ orderInfo });
 
-  //   // Fill the Order via 0x Exchange contract
-  //   txHash = await contractWrappers.exchange
-  //     .fillOrder(signedOrder, takerAssetAmount, signedOrder.signature)
-  //     .sendTransactionAsync({
-  //       from: taker,
-  //       ...TX_DEFAULTS,
-  //       value: calculateProtocolFee([signedOrder]),
-  //     });
-  //   txReceipt = await printUtils.awaitTransactionMinedSpinnerAsync(
-  //     'fillOrder',
-  //     txHash
-  //   );
-  //   printUtils.printTransaction('fillOrder', txReceipt, [
-  //     ['orderHash', orderHash],
-  //   ]);
+  // Fill the Order via 0x Exchange contract
+  const txHash = await zeroEx
+    .connect(taker)
+    .fillLimitOrder(
+      JSON.parse(JSON.stringify(order)),
+      signature,
+      takerAssetAmount.toString(),
+      { value: calculateProtocolFee([order]).toString() }
+    );
+  console.log({ txHash });
 
   //   // Print the Balances
   //   await printUtils.fetchAndPrintContractBalancesAsync();
 
-  //   // Stop the Provider Engine
-  //   providerEngine.stop();
+  // Stop the Provider Engine
+  providerEngine.stop();
 }
 
 void (async () => {

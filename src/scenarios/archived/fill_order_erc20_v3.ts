@@ -9,18 +9,21 @@ import {
   Order,
   signatureUtils,
 } from '@0x/order-utils';
-import { NETWORK_CONFIGS, MNEMONIC, TX_DEFAULTS } from '../configs';
-import { providerEngine } from '../provider_engine';
+import { NETWORK_CONFIGS, MNEMONIC, TX_DEFAULTS } from '../../configs';
+import { providerEngine } from '../../provider_engine';
 import {
   DECIMALS,
   NULL_ADDRESS,
   NULL_BYTES,
   UNLIMITED_ALLOWANCE_IN_BASE_UNITS,
   ZERO,
-} from '../constants';
-import { calculateProtocolFee, getRandomFutureDateInSeconds } from '../utils';
+} from '../../constants';
+import {
+  calculateProtocolFee,
+  getRandomFutureDateInSeconds,
+} from '../../utils';
 import BigNumber from 'bignumber.js';
-import * as exchangeABI from '../abi.json';
+import * as exchangeABI from '../../abi.json';
 
 async function scenarioAsync(): Promise<void> {
   console.log('Fill Order');
@@ -159,7 +162,7 @@ async function scenarioAsync(): Promise<void> {
     signedOrder.signature,
     {
       // ...TX_DEFAULTS,
-      value: BN.from(calculateProtocolFee([signedOrder]).toString()),
+      // value: BN.from(calculateProtocolFee([signedOrder]).toString()),
     }
   );
   console.log({ txHash });
