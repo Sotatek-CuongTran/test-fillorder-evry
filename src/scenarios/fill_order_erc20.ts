@@ -9,7 +9,7 @@ import {
 import { BigNumber } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
 
-import { NETWORK_CONFIGS, TX_DEFAULTS } from '../configs';
+import { MNEMONIC, NETWORK_CONFIGS, TX_DEFAULTS } from '../configs';
 import {
   DECIMALS,
   NULL_ADDRESS,
@@ -20,6 +20,8 @@ import {
 import { PrintUtils } from '../print_utils';
 import { providerEngine } from '../provider_engine';
 import { calculateProtocolFee, getRandomFutureDateInSeconds } from '../utils';
+import * as wethABI from '../abis/weth.json';
+import { Contract, providers, Wallet } from 'ethers';
 
 /**
  * In this scenario, the maker creates and signs an order for selling ZRX for WETH.
@@ -36,13 +38,18 @@ export async function scenarioAsync(): Promise<void> {
   // Initialize the Web3Wrapper, this provides helper functions around fetching
   // account information, balances, general contract logs
   const web3Wrapper = new Web3Wrapper(providerEngine);
-  let [maker, taker] = await web3Wrapper.getAvailableAddressesAsync();
+  const provider = new providers.JsonRpcProvider(NETWORK_CONFIGS.rpcUrl);
+  const maker = Wallet.fromMnemonic(MNEMONIC).connect(provider);
+  const taker = Wallet.fromMnemonic(MNEMONIC, "m/44'/60'/0'/0/1").connect(
+    provider
+  );
+
   const zrxTokenAddress = contractWrappers.contractAddresses.zrxToken;
   const etherTokenAddress = contractWrappers.contractAddresses.etherToken;
   const printUtils = new PrintUtils(
     web3Wrapper,
     contractWrappers,
-    { maker, taker },
+    { maker: maker.address, taker: taker.address },
     { WETH: etherTokenAddress, ZRX: zrxTokenAddress }
   );
   printUtils.printAccounts();
@@ -59,19 +66,16 @@ export async function scenarioAsync(): Promise<void> {
   );
 
   // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
-  const erc20Token = new DummyERC20TokenContract(
-    zrxTokenAddress,
-    providerEngine
-  );
+  const erc20Token = new Contract(zrxTokenAddress, wethABI, provider);
   const makerZRXApprovalTxHash = await erc20Token
+    .connect(maker)
     .approve(
       contractWrappers.contractAddresses.erc20Proxy,
-      UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-    )
-    .awaitTransactionSuccessAsync({ from: maker });
+      UNLIMITED_ALLOWANCE_IN_BASE_UNITS.toString()
+    );
   await printUtils.awaitTransactionMinedSpinnerAsync(
     'Maker ZRX Approval',
-    makerZRXApprovalTxHash.transactionHash
+    makerZRXApprovalTxHash.hash
   );
 
   //   // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
