@@ -32,55 +32,46 @@ export async function scenarioAsync(): Promise<void> {
   PrintUtils.printScenario('Fill Order');
   // Initialize the ContractWrappers, this provides helper functions around calling
   // 0x contracts as well as ERC20/ERC721 token contracts on the blockchain
-  //   const contractWrappers = new ContractWrappers(providerEngine, {
-  //     chainId: NETWORK_CONFIGS.chainId,
-  //   });
-  //   // Initialize the Web3Wrapper, this provides helper functions around fetching
-  //   // account information, balances, general contract logs
-  //   const web3Wrapper = new Web3Wrapper(providerEngine);
-  //   const [maker, taker] = await web3Wrapper.getAvailableAddressesAsync();
-  //   const zrxTokenAddress = contractWrappers.contractAddresses.zrxToken;
-  //   const etherTokenAddress = contractWrappers.contractAddresses.etherToken;
-  //   const printUtils = new PrintUtils(
-  //     web3Wrapper,
-  //     contractWrappers,
-  //     { maker, taker },
-  //     { WETH: etherTokenAddress, ZRX: zrxTokenAddress }
-  //   );
-  //   printUtils.printAccounts();
+  const contractWrappers = new ContractWrappers(providerEngine, {
+    chainId: NETWORK_CONFIGS.chainId,
+  });
+  // Initialize the Web3Wrapper, this provides helper functions around fetching
+  // account information, balances, general contract logs
+  const web3Wrapper = new Web3Wrapper(providerEngine);
+  let [maker, taker] = await web3Wrapper.getAvailableAddressesAsync();
+  const zrxTokenAddress = contractWrappers.contractAddresses.zrxToken;
+  const etherTokenAddress = contractWrappers.contractAddresses.etherToken;
+  const printUtils = new PrintUtils(
+    web3Wrapper,
+    contractWrappers,
+    { maker, taker },
+    { WETH: etherTokenAddress, ZRX: zrxTokenAddress }
+  );
+  printUtils.printAccounts();
 
-  //   // the amount the maker is selling of maker asset
-  //   const makerAssetAmount = Web3Wrapper.toBaseUnitAmount(
-  //     new BigNumber(5),
-  //     DECIMALS
-  //   );
-  //   // the amount the maker wants of taker asset
-  //   const takerAssetAmount = Web3Wrapper.toBaseUnitAmount(
-  //     new BigNumber(0.1),
-  //     DECIMALS
-  //   );
-  //   // 0x v2 uses hex encoded asset data strings to encode all the information needed to identify an asset
-  //   const makerAssetData = await contractWrappers.devUtils
-  //     .encodeERC20AssetData(zrxTokenAddress)
-  //     .callAsync();
-  //   const takerAssetData = await contractWrappers.devUtils
-  //     .encodeERC20AssetData(etherTokenAddress)
-  //     .callAsync();
-  //   let txHash;
-  //   let txReceipt;
+  // the amount the maker is selling of maker asset
+  const makerAssetAmount = Web3Wrapper.toBaseUnitAmount(
+    new BigNumber(0.1),
+    DECIMALS
+  );
+  // the amount the maker wants of taker asset
+  const takerAssetAmount = Web3Wrapper.toBaseUnitAmount(
+    new BigNumber(0.1),
+    DECIMALS
+  );
 
-  //   // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
-  //   const erc20Token = new ERC20TokenContract(zrxTokenAddress, providerEngine);
-  //   const makerZRXApprovalTxHash = await erc20Token
-  //     .approve(
-  //       contractWrappers.contractAddresses.erc20Proxy,
-  //       UNLIMITED_ALLOWANCE_IN_BASE_UNITS
-  //     )
-  //     .sendTransactionAsync({ from: maker });
-  //   await printUtils.awaitTransactionMinedSpinnerAsync(
-  //     'Maker ZRX Approval',
-  //     makerZRXApprovalTxHash
-  //   );
+  // Allow the 0x ERC20 Proxy to move ZRX on behalf of makerAccount
+  const erc20Token = new ERC20TokenContract(zrxTokenAddress, providerEngine);
+  const makerZRXApprovalTxHash = await erc20Token
+    .approve(
+      contractWrappers.contractAddresses.erc20Proxy,
+      UNLIMITED_ALLOWANCE_IN_BASE_UNITS
+    )
+    .sendTransactionAsync({ from: maker });
+  await printUtils.awaitTransactionMinedSpinnerAsync(
+    'Maker ZRX Approval',
+    makerZRXApprovalTxHash
+  );
 
   //   // Allow the 0x ERC20 Proxy to move WETH on behalf of takerAccount
   //   const etherToken = contractWrappers.weth9;
