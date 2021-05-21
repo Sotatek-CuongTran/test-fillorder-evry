@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@0x/contract-wrappers": "^13.16.1",
+    "@0x/contracts-asset-proxy": "^3.7.11",
     "@0x/contracts-erc20": "^3.3.8",
     "@0x/contracts-test-utils": "^5.4.0",
     "@0x/migrations": "^8.0.6",
