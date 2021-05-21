@@ -19,7 +19,11 @@ import {
 } from '../constants';
 import { PrintUtils } from '../print_utils';
 import { providerEngine } from '../provider_engine';
-import { calculateProtocolFee, getRandomFutureDateInSeconds } from '../utils';
+import {
+  calculateProtocolFee,
+  getEmptyLimitOrder,
+  getRandomFutureDateInSeconds,
+} from '../utils';
 import * as wethABI from '../abis/weth.json';
 import { Contract, providers, Wallet } from 'ethers';
 
@@ -106,31 +110,16 @@ export async function scenarioAsync(): Promise<void> {
     ['Taker WETH Deposit', takerWETHDepositTxHash.hash],
   ]);
 
-  //   // Set up the Order and fill it
-  //   const randomExpiration = getRandomFutureDateInSeconds();
-  //   const exchangeAddress = contractWrappers.contractAddresses.exchange;
-
-  //   // Create the order
-  //   const order: Order = {
-  //     chainId: NETWORK_CONFIGS.chainId,
-  //     exchangeAddress,
-  //     makerAddress: maker,
-  //     takerAddress: NULL_ADDRESS,
-  //     senderAddress: NULL_ADDRESS,
-  //     feeRecipientAddress: NULL_ADDRESS,
-  //     expirationTimeSeconds: randomExpiration,
-  //     salt: generatePseudoRandomSalt(),
-  //     makerAssetAmount,
-  //     takerAssetAmount,
-  //     makerAssetData,
-  //     takerAssetData,
-  //     makerFeeAssetData: NULL_BYTES,
-  //     takerFeeAssetData: NULL_BYTES,
-  //     makerFee: ZERO,
-  //     takerFee: ZERO,
-  //   };
-
-  //   printUtils.printOrder(order);
+  const order = getEmptyLimitOrder({
+    chainId: NETWORK_CONFIGS.chainId,
+    verifyingContract: contractWrappers.contractAddresses.exchangeProxy,
+    makerToken: zrxTokenAddress,
+    takerToken: etherTokenAddress,
+    makerAmount: makerAssetAmount,
+    takerAmount: takerAssetAmount,
+    maker: maker.address,
+  });
+  console.log(order);
 
   //   // Print out the Balances and Allowances
   //   await printUtils.fetchAndPrintContractAllowancesAsync();
