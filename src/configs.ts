@@ -10,8 +10,6 @@ export const TX_DEFAULTS = { gas: 800000, gasPrice: 1000000000 };
 // export const MNEMONIC = 'concert load couple harbor equip island argue ramp clarify fence smart topic';
 export const MNEMONIC =
   'stay wasp brass kitchen top easy body unknown destroy grape scatter wasp';
-// export const MNEMONIC =
-//   'rabbit desk category return law just clever upon fiscal kit same purpose';
 export const BASE_DERIVATION_PATH = `44'/60'/0'/0`;
 export const GANACHE_CONFIGS: NetworkSpecificConfigs = {
   rpcUrl: 'http://127.0.0.1:8545',
