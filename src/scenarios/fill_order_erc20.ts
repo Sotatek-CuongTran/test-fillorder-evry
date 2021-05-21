@@ -145,8 +145,8 @@ export async function scenarioAsync(): Promise<void> {
     );
   console.log({ txHash });
 
-  //   // Print the Balances
-  //   await printUtils.fetchAndPrintContractBalancesAsync();
+  // Print the Balances
+  await printUtils.fetchAndPrintContractBalancesAsync();
 
   // Stop the Provider Engine
   providerEngine.stop();
