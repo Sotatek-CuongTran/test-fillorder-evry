@@ -163,7 +163,7 @@ async function scenarioAsync(): Promise<void> {
     signedOrder.signature,
     {
       // ...TX_DEFAULTS,
-      value: BN.from(calculateProtocolFee([signedOrder]).toString()),
+      // value: BN.from(calculateProtocolFee([signedOrder]).toString()),
     }
   );
   console.log({ txHash });

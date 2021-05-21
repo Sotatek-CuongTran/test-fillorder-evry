@@ -22,7 +22,7 @@ import {
 import { calculateProtocolFee, getRandomFutureDateInSeconds } from '../utils';
 import BigNumber from 'bignumber.js';
 import * as exchangeABI from '../abi.json';
-import * as zeroExABI from '../zero-ex.json';
+import * as zeroExABI from '../abis/zero-ex.json';
 
 async function scenarioAsync(): Promise<void> {
   const contractWrappers = new ContractWrappers(providerEngine, {
