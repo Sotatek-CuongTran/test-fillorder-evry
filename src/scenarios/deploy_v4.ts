@@ -9,14 +9,14 @@ import { providerEngine } from '../provider_engine';
  * The taker takes this order and fills it via the 0x Exchange contract.
  */
 export async function scenarioAsync(): Promise<void> {
-  const provider: Web3ProviderEngine = web3Factory.getRpcProvider({
-    shouldUseInProcessGanache: true,
-  });
-  // const provider = providerEngine;
+  // const provider: Web3ProviderEngine = web3Factory.getRpcProvider({
+  //   shouldUseInProcessGanache: true,
+  // });
+  const provider = providerEngine;
   const web3Wrapper = new Web3Wrapper(provider);
   const [from] = await web3Wrapper.getAvailableAddressesAsync();
   const txDefaults = {
-    gas: devConstants.GAS_LIMIT,
+    // gas: devConstants.GAS_LIMIT,
     from,
   };
 
