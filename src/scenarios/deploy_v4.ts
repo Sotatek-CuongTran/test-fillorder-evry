@@ -1,4 +1,4 @@
-import { runMigrationsOnceAsync } from '@0x/migrations';
+import { runMigrationsAsync, runMigrationsOnceAsync } from '@0x/migrations';
 import { devConstants, web3Factory } from '@0x/dev-utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
 import { Web3ProviderEngine } from '@0x/subproviders';
@@ -18,7 +18,7 @@ export async function scenarioAsync(): Promise<void> {
     from: devConstants.TESTRPC_FIRST_ADDRESS,
   };
 
-  const contractAddresses = await runMigrationsOnceAsync(provider, txDefaults);
+  const contractAddresses = await runMigrationsAsync(provider, txDefaults);
   console.log({ contractAddresses });
 }
 
