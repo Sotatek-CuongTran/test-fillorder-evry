@@ -31,5 +31,11 @@ export const RINKEBY_CONFIGS: NetworkSpecificConfigs = {
   networkId: RINKEBY_NETWORK_ID,
   chainId: RINKEBY_NETWORK_ID,
 };
-export const NETWORK_CONFIGS = GANACHE_CONFIGS; // or KOVAN_CONFIGS or ROPSTEN_CONFIGS or RINKEBY_CONFIGS
+export const EVRYNET_CONFIGS: NetworkSpecificConfigs = {
+  rpcUrl: 'http://localhost:22001',
+  networkId: 15,
+  chainId: 15,
+};
+
+export const NETWORK_CONFIGS = EVRYNET_CONFIGS; // or KOVAN_CONFIGS or ROPSTEN_CONFIGS or RINKEBY_CONFIGS
 // export const NETWORK_CONFIGS = ROPSTEN_CONFIGS; // or KOVAN_CONFIGS or ROPSTEN_CONFIGS or RINKEBY_CONFIGS
