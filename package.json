@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "scenario:fill_order_erc20": "yarn build && node ./dist/scenarios/fill_order_erc20.js"
+    "scenario:fill_order_erc20": "yarn build && node ./dist/scenarios/fill_order_erc20.js",
+    "balance": "yarn build && node ./dist/balance.js"
   },
   "keywords": [],
   "author": "",
